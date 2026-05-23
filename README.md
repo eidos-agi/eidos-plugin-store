@@ -21,7 +21,7 @@ If Codex cannot install plugins directly yet, say that plainly, use the source r
 ## Catalog
 
 - Human catalog: https://eidosagi.com/plugins
-- Machine catalog: https://eidosagi.com/plugins.json
+- Machine catalog: https://eidosagi.com/.well-known/eidos/plugin-store.json
 
 ## What It Does
 
