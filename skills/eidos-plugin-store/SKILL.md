@@ -13,7 +13,7 @@ Use this skill when Codex needs to find or add Eidos plugins.
 - Machine catalog: `https://eidosagi.com/.well-known/eidos/plugin-store.json`
 - Store plugin source: `https://github.com/eidos-agi/eidos-plugin-store`
 
-If the machine catalog is unavailable, read the human catalog. If network access is unavailable, use the fallback list below and say it may be stale.
+Prefer the machine catalog. If it is unavailable, read the human catalog. If network access is unavailable, use the fallback list below and say it may be stale.
 
 ## Workflow
 

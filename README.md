@@ -12,6 +12,9 @@ I want to install the Eidos Plugin Store for Codex so you can use it to find and
 Please bootstrap the Eidos Plugin Store plugin first, then use it as the catalog for other Eidos plugins:
 https://eidosagi.com/plugins
 
+Current catalog for agents:
+https://eidosagi.com/.well-known/eidos/plugin-store.json
+
 Store plugin source:
 https://github.com/eidos-agi/eidos-plugin-store
 

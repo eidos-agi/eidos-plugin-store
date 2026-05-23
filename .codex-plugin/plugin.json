@@ -23,7 +23,7 @@
   "interface": {
     "displayName": "Eidos Plugin Store",
     "shortDescription": "Find and add Eidos plugins from Codex.",
-    "longDescription": "The Eidos Plugin Store is the Codex entrypoint for Eidos plugins. It reads the public catalog, recommends the right plugin for the job, and bootstraps install steps when direct install is not available yet.",
+    "longDescription": "The Eidos Plugin Store is the Codex entrypoint for Eidos plugins. It reads the public well-known catalog, recommends the right plugin for the job, and bootstraps install steps when direct install is not available yet.",
     "developerName": "Eidos AGI",
     "category": "Developer Tools",
     "capabilities": [
