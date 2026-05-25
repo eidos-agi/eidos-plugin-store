@@ -1,9 +1,9 @@
 ---
 name: eidos-plugin-store
-description: Use when the user asks Codex to discover, choose, install, add, bootstrap, or use Eidos plugins from the Eidos Plugin Store.
+description: Use when the user asks Codex to discover, choose, install, add, bootstrap, or use Eidos plugins from the Eidos AGI catalog.
 ---
 
-# Eidos Plugin Store
+# Eidos AGI Catalog
 
 Use this skill when Codex needs to find or add Eidos plugins.
 
@@ -11,14 +11,18 @@ Use this skill when Codex needs to find or add Eidos plugins.
 
 - Human catalog: `https://eidosagi.com/plugins`
 - Machine catalog: `https://eidosagi.com/.well-known/eidos/plugin-store.json`
-- Store plugin source: `https://github.com/eidos-agi/eidos-plugin-store`
+- Catalog/bootstrap plugin source: `https://github.com/eidos-agi/eidos-plugin-store`
+
+The public marketplace identity is `Eidos AGI`. Do not create or recommend a
+second user-visible Eidos store unless the user explicitly asks for a local test
+marketplace.
 
 Prefer the machine catalog. If it is unavailable, read the human catalog. If network access is unavailable, use the fallback list below and say it may be stale.
 
 ## Workflow
 
 1. Understand the user's task and whether they need discovery, installation, or plugin-building help.
-2. Read the current Eidos Plugin Store catalog when possible.
+2. Read the current Eidos AGI catalog when possible.
 3. Recommend the smallest useful plugin set for the job.
 4. If Codex direct plugin install is available, use it.
 5. If Codex direct plugin install is not available, say that plainly and use the source repo instructions.
@@ -26,7 +30,7 @@ Prefer the machine catalog. If it is unavailable, read the human catalog. If net
 
 ## Plugin Hints
 
-- Eidos Plugin Store: discover and bootstrap Eidos plugins.
+- Eidos AGI Catalog: discover and bootstrap Eidos plugins.
 - Felix: plan and build Codex plugins.
 - Eidos: track agent work with evidence.
 - Foreman: delegate scoped coding work.
@@ -42,11 +46,11 @@ Prefer the machine catalog. If it is unavailable, read the human catalog. If net
 For users, keep the language plain:
 
 ```text
-Install the Eidos Plugin Store first. Then use it to find and add the other Eidos plugins you need.
+Install the Eidos AGI marketplace first. Then use the catalog plugin to find and add the other Eidos plugins you need.
 ```
 
 When Codex install support is uncertain, use this shape:
 
 ```text
-Codex direct plugin install may not be live in this environment yet. I will use the Eidos Plugin Store catalog and the source repo instructions, then tell you exactly what is installed versus only recommended.
+Codex direct plugin install may not be live in this environment yet. I will use the Eidos AGI catalog and the source repo instructions, then tell you exactly what is installed versus only recommended.
 ```

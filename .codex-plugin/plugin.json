@@ -1,7 +1,7 @@
 {
   "name": "eidos-plugin-store",
   "version": "0.1.0",
-  "description": "Discover and bootstrap Eidos Codex plugins from the Eidos Plugin Store.",
+  "description": "Discover and bootstrap Eidos Codex plugins from the Eidos AGI catalog.",
   "author": {
     "name": "Eidos AGI",
     "email": "daniel@eidosagi.com",
@@ -21,9 +21,9 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Eidos Plugin Store",
-    "shortDescription": "Find and add Eidos plugins from Codex.",
-    "longDescription": "The Eidos Plugin Store is the Codex entrypoint for Eidos plugins. It reads the public well-known catalog, recommends the right plugin for the job, and bootstraps install steps when direct install is not available yet.",
+    "displayName": "Eidos AGI Catalog",
+    "shortDescription": "Find and add Eidos AGI plugins from Codex.",
+    "longDescription": "The Eidos AGI Catalog is the Codex entrypoint for Eidos plugins. It reads the public well-known catalog, recommends the right plugin for the job, and bootstraps install steps when direct install is not available yet. It is a plugin inside the Eidos AGI marketplace, not a separate store.",
     "developerName": "Eidos AGI",
     "category": "Developer Tools",
     "capabilities": [
@@ -33,12 +33,12 @@
       "Eidos Plugins"
     ],
     "websiteURL": "https://eidosagi.com/plugins",
-    "privacyPolicyURL": "https://eidosagi.com/privacy",
-    "termsOfServiceURL": "https://eidosagi.com/terms",
+    "privacyPolicyURL": "https://github.com/eidos-agi/eidos-plugin-store",
+    "termsOfServiceURL": "https://github.com/eidos-agi/eidos-plugin-store",
     "defaultPrompt": [
       "Show me the Eidos plugins for this task.",
       "Install or bootstrap the right Eidos plugin.",
-      "Read the Eidos Plugin Store catalog."
+      "Read the Eidos AGI catalog."
     ],
     "brandColor": "#B86F3E",
     "composerIcon": "./assets/icon.svg",
