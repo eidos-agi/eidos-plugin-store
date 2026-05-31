@@ -34,6 +34,7 @@ Prefer the machine catalog. If it is unavailable, read the human catalog. If net
 - Felix: plan and build Codex plugins.
 - Eidos: track agent work with evidence.
 - Foreman: delegate scoped coding work.
+- Emux: register and control existing tmux sessions from agents.
 - Forge-Forge: route work to the right Eidos forge.
 - Rhea: route model help, debate, pairing, and images.
 - Surfari: improve browser-agent runs.
