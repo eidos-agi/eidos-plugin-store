@@ -33,8 +33,8 @@ Prefer the machine catalog. If it is unavailable, read the human catalog. If net
 - Eidos AGI Catalog: discover and bootstrap Eidos plugins.
 - Felix: plan and build Codex plugins.
 - Eidos: track agent work with evidence.
-- Foreman: delegate scoped coding work.
-- Emux: register and control existing tmux sessions from agents.
+- Foreman: delegate scoped coding work, including Emux-headed Claude Code workers.
+- Emux: register and control existing tmux sessions from agents and terminal heads.
 - Forge-Forge: route work to the right Eidos forge.
 - Rhea: route model help, debate, pairing, and images.
 - Surfari: improve browser-agent runs.
