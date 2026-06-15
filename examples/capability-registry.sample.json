@@ -656,7 +656,11 @@
         "redacted learning candidate",
         "screenshot",
         "accessibility snapshot",
-        "domain-gate decision"
+        "domain-gate decision",
+        "expected-domain allowlist proof",
+        "active-tab anchoring proof",
+        "stale-ref recovery proof",
+        "human-gate metadata confirmation"
       ],
       "hard_stops": [
         "login",
@@ -665,7 +669,9 @@
         "legal agreements",
         "payments",
         "provisioning profile download",
-        "profile install"
+        "profile install",
+        "final submission",
+        "raw secret storage"
       ],
       "dependencies": [
         "Codex",
@@ -688,9 +694,15 @@
           ],
           "proof_required": [
             "redacted browser action log",
+            "expected domains: developer.apple.com and idmsa.apple.com",
+            "active-tab anchoring proof",
+            "stale-ref recovery proof",
             "human gate evidence",
+            "team-id metadata confirmation without secret values",
+            "Knox reference path only; no raw secrets",
             "StepProof audit output when sequential"
-          ]
+          ],
+          "notes": "For Apple Developer workflows, Surfari must prove allowed-domain navigation, active tab anchoring, and stale-reference recovery before any live browser work. Stop at login, MFA, passkeys, legal, payment, final submission, provisioning profile download, or profile install."
         }
       ],
       "install_status": {

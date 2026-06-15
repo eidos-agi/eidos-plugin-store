@@ -70,6 +70,19 @@ Foreman and Emux are represented as separate capabilities even when a route uses
   `claude`, and must retain the same hard stops around secrets, deploys,
   payments, and destructive git actions.
 
+## Account-Sensitive Browser Routes
+
+Browser routes that touch protected accounts should encode proof requirements
+as metadata, not credentials:
+
+- expected domain allowlists, such as `developer.apple.com` and
+  `idmsa.apple.com` for Apple Developer workflows;
+- active-tab anchoring and stale-reference recovery proof before live browser
+  actions;
+- human-gate metadata confirmation, including team/account identifiers only
+  when safe to record;
+- Knox coupling by reference path or status only, never raw secret values.
+
 ## Public Catalog Integration
 
 The existing machine catalog may expose capability data in either of two ways:
