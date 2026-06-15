@@ -5,6 +5,7 @@ skip_build = true
 skip_live = true
 
 [shipr]
+enabled = true
 goal = "Prepare Eidos capability registry contract for routing"
 description = "Capability registry contract for Eidos routing; local docs, schema, sample, and validator before public publishing."
 
@@ -13,6 +14,9 @@ builtin = [
   "git-clean-pushed",
   "artifact-scan",
   "post-clean-artifact-scan",
+  "shipr-model",
+  "shipr-frontier",
+  "shipr-attempt",
 ]
 
 [agentic_first]
