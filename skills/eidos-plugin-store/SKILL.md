@@ -11,22 +11,32 @@ Use this skill when Codex needs to find or add Eidos plugins.
 
 - Human catalog: `https://eidosagi.com/plugins`
 - Machine catalog: `https://eidosagi.com/.well-known/eidos/plugin-store.json`
+- Capability contract docs: `docs/capability-contract.md`
+- Capability schema: `schemas/capability-registry.schema.json`
+- Capability sample: `examples/capability-registry.sample.json`
 - Catalog/bootstrap plugin source: `https://github.com/eidos-agi/eidos-plugin-store`
 
 The public marketplace identity is `Eidos AGI`. Do not create or recommend a
 second user-visible Eidos store unless the user explicitly asks for a local test
 marketplace.
 
-Prefer the machine catalog. If it is unavailable, read the human catalog. If network access is unavailable, use the fallback list below and say it may be stale.
+Prefer the machine catalog and its capability metadata when present. If the live
+machine catalog has no capability metadata yet, use the local capability sample
+only as a contract/example and say that publication is still pending. If the
+machine catalog is unavailable, read the human catalog. If network access is
+unavailable, use the fallback list below and say it may be stale.
 
 ## Workflow
 
 1. Understand the user's task and whether they need discovery, installation, or plugin-building help.
 2. Read the current Eidos AGI catalog when possible.
-3. Recommend the smallest useful plugin set for the job.
-4. If Codex direct plugin install is available, use it.
-5. If Codex direct plugin install is not available, say that plainly and use the source repo instructions.
-6. Do not claim a plugin is installed unless Codex confirms it is installed or it is visible in the active plugin list.
+3. When routing work, prefer capability fields in this order: `owns`,
+   `commands`, `proof_types`, `hard_stops`, `dependencies`, `works_with`, and
+   `eidos_routes`.
+4. Recommend the smallest useful plugin set for the job.
+5. If Codex direct plugin install is available, use it.
+6. If Codex direct plugin install is not available, say that plainly and use the source repo instructions.
+7. Do not claim a plugin is installed unless Codex confirms it is installed or it is visible in the active plugin list.
 
 ## Plugin Hints
 

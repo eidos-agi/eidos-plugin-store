@@ -1,0 +1,39 @@
+[repo]
+style = "capability-registry-contract"
+skip_tests = true
+skip_build = true
+skip_live = true
+
+[shipr]
+goal = "Prepare Eidos capability registry contract for routing"
+description = "Capability registry contract for Eidos routing; local docs, schema, sample, and validator before public publishing."
+
+[gates]
+builtin = [
+  "git-clean-pushed",
+  "artifact-scan",
+  "post-clean-artifact-scan",
+]
+
+[agentic_first]
+code_justification = "evidence gate"
+agentic_capability = "Keeps Eidos Plugin Store as a capability registry through schema and validator proof instead of runtime absorption."
+non_code_paths_considered = ["catalog contract", "source docs", "sample registry", "validator", "routing metadata"]
+
+[learnings]
+yes = [
+  "Validate the capability registry sample before claiming catalog readiness.",
+  "Keep runtime ownership in specialist tools; registry metadata should only route and describe capabilities.",
+]
+do_not = [
+  "Do not publish catalog changes from eidos ship; deployment remains approval-gated.",
+  "Do not move Foreman, Emux, StepProof, Converge, Surfari, or Knox behavior into Eidos Plugin Store.",
+]
+
+[[custom_gate]]
+id = "capability-registry-validator"
+facet = "capability-registry"
+command = "python3 scripts/validate_capability_registry.py examples/capability-registry.sample.json"
+timeout = 60
+pass_detail = "Capability registry sample validates against the local contract."
+fail_detail = "Capability registry sample failed local contract validation."

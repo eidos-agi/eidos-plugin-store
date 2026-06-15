@@ -1,0 +1,1043 @@
+{
+  "kind": "eidos.capability-registry",
+  "version": 1,
+  "generated_at": "2026-06-14T22:00:00Z",
+  "public_catalog_url": "https://eidosagi.com/.well-known/eidos/plugin-store.json",
+  "schema_url": "https://eidosagi.com/.well-known/eidos/capability-registry.schema.json",
+  "plugins": [
+    {
+      "slug": "eidos-plugin-store",
+      "name": "Eidos AGI Catalog",
+      "summary": "Capability registry and bootstrap catalog for Eidos plugins.",
+      "owns": {
+        "domain": "Eidos plugin discovery and public-safe capability metadata.",
+        "boundary": "Maintains machine-readable catalog contracts and install guidance.",
+        "does_not_own": [
+          "specialist runtime execution",
+          "secret material",
+          "private machine inventory"
+        ]
+      },
+      "commands": [
+        {
+          "name": "read_catalog",
+          "command": "curl -fsSL https://eidosagi.com/.well-known/eidos/plugin-store.json",
+          "purpose": "Read the public plugin catalog."
+        },
+        {
+          "name": "validate_capabilities",
+          "command": "python3 scripts/validate_capability_registry.py examples/capability-registry.sample.json",
+          "purpose": "Validate routing metadata before publication."
+        }
+      ],
+      "proof_types": [
+        "catalog JSON",
+        "schema validation output",
+        "install guidance"
+      ],
+      "hard_stops": [
+        "do not publish private local paths",
+        "do not publish secrets",
+        "do not claim installed status without host proof"
+      ],
+      "dependencies": [
+        "Codex",
+        "Python 3"
+      ],
+      "works_with": [
+        "eidos",
+        "felix",
+        "forge-forge"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task asks which Eidos plugin should own a capability.",
+          "stack": [
+            "eidos-plugin-store",
+            "eidos"
+          ],
+          "proof_required": [
+            "catalog entry",
+            "capability validation"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/eidos-plugin-store",
+          "url": "https://github.com/eidos-agi/eidos-plugin-store"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 scripts/validate_capability_registry.py examples/capability-registry.sample.json",
+        "smoke_command": "curl -fsSL https://eidosagi.com/.well-known/eidos/plugin-store.json",
+        "docs": [
+          "README.md",
+          "docs/capability-contract.md"
+        ],
+        "last_proof": {
+          "status": "current",
+          "date": "2026-06-14",
+          "summary": "Schema and sample registry validate locally."
+        }
+      }
+    },
+    {
+      "slug": "eidos",
+      "name": "Eidos",
+      "summary": "Coordinator for tracked task loops, evidence, routing, closeout, and learning.",
+      "owns": {
+        "domain": "Eidos task orchestration and evidence lifecycle.",
+        "boundary": "Coordinates specialist routing and verifies proof without absorbing specialist runtimes.",
+        "does_not_own": [
+          "browser automation runtime",
+          "worktree worker execution",
+          "ceremony enforcement runtime",
+          "secret value storage"
+        ]
+      },
+      "commands": [
+        {
+          "name": "orient",
+          "command": "eidos status",
+          "purpose": "Read current Eidos scope."
+        },
+        {
+          "name": "execute_task",
+          "command": "eidos do <task-id>",
+          "purpose": "Create a tracked task context and continuation envelope."
+        },
+        {
+          "name": "closeout",
+          "command": "eidos closeout",
+          "purpose": "Verify cleanup and proof gates before completion claims."
+        }
+      ],
+      "proof_types": [
+        "context bundle",
+        "continuation envelope",
+        "praxis turn",
+        "closeout report"
+      ],
+      "hard_stops": [
+        "MFA",
+        "payments",
+        "legal agreements",
+        "secret disclosure",
+        "irreversible deploy or account mutation"
+      ],
+      "dependencies": [
+        "Codex",
+        "Python 3",
+        "git"
+      ],
+      "works_with": [
+        "eidos-plugin-store",
+        "foreman",
+        "stepproof",
+        "converge",
+        "surfari",
+        "knox",
+        "felix",
+        "rhea",
+        "forge-forge"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task needs governed execution with evidence and closeout.",
+          "stack": [
+            "eidos"
+          ],
+          "proof_required": [
+            "eidos do output",
+            "evidence path",
+            "closeout output"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/eidos-cli",
+          "url": "https://github.com/eidos-agi/eidos-cli"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 -m pytest -q",
+        "smoke_command": "eidos status",
+        "docs": [
+          "skills/use-eidos-cli/SKILL.md",
+          "eidos_cli/guides/plugins.md"
+        ],
+        "last_proof": {
+          "status": "current",
+          "date": "2026-06-14",
+          "summary": "Local CLI responded; current workspace root is not itself an Eidos scope."
+        }
+      }
+    },
+    {
+      "slug": "foreman",
+      "name": "Foreman",
+      "summary": "Delegates scoped coding work to AI workers in isolated git worktrees.",
+      "owns": {
+        "domain": "Multi-agent coding delegation and worker lifecycle.",
+        "boundary": "Creates worktrees, runs worker engines, exposes status, collect, and finalization evidence.",
+        "does_not_own": [
+          "architectural acceptance decisions",
+          "secret handling",
+          "deploy approvals"
+        ]
+      },
+      "commands": [
+        {
+          "name": "route",
+          "command": "foreman route <task>",
+          "purpose": "Rank worker engines and control needs."
+        },
+        {
+          "name": "delegate",
+          "command": "foreman delegate <task>",
+          "purpose": "Dispatch a narrow task to an isolated worker."
+        },
+        {
+          "name": "claude_emux",
+          "command": "foreman delegate --engine claude-emux <task>",
+          "purpose": "Launch an interactive Claude Code worker through Emux."
+        }
+      ],
+      "proof_types": [
+        "worker id",
+        "run id",
+        "worktree path kind",
+        "diff summary",
+        "test output",
+        "emux control commands"
+      ],
+      "hard_stops": [
+        "broad architecture delegation",
+        "secret use",
+        "destructive git actions",
+        "deploys",
+        "payments"
+      ],
+      "dependencies": [
+        "git",
+        "tmux",
+        "emux",
+        "claude for claude-emux",
+        "worker engine CLI"
+      ],
+      "works_with": [
+        "eidos",
+        "emux",
+        "converge",
+        "stepproof"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A coding task splits into independent file-scoped implementation slices.",
+          "stack": [
+            "eidos",
+            "foreman"
+          ],
+          "proof_required": [
+            "worker run id",
+            "collected diff",
+            "parent verification command"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/foreman",
+          "url": "https://github.com/eidos-agi/foreman"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.3.1",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.3.1",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 scripts/release_gate.py",
+        "smoke_command": "python3 scripts/smoke_test.py",
+        "docs": [
+          "README.md",
+          "skills/delegate-with-foreman/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Capability sample records the intended checks; release gate was not run in this contract pass."
+        }
+      }
+    },
+    {
+      "slug": "emux",
+      "name": "Emux",
+      "summary": "Registry and control layer for named tmux sessions.",
+      "owns": {
+        "domain": "Terminal session registry and tmux pane control.",
+        "boundary": "Observes and drives user-owned tmux sessions; does not own worker task semantics.",
+        "does_not_own": [
+          "worker spawning policy",
+          "coding task acceptance",
+          "secret entry"
+        ]
+      },
+      "commands": [
+        {
+          "name": "head",
+          "command": "emux head <name>",
+          "purpose": "Attach or inspect a registered session head.",
+          "requires_human": true
+        },
+        {
+          "name": "capture",
+          "command": "emux capture <name>",
+          "purpose": "Capture recent pane output."
+        },
+        {
+          "name": "interrupt",
+          "command": "emux interrupt <name>",
+          "purpose": "Interrupt a registered interactive worker."
+        }
+      ],
+      "proof_types": [
+        "session registry row",
+        "pane capture",
+        "interrupt acknowledgement"
+      ],
+      "hard_stops": [
+        "do not spawn or kill sessions outside caller policy",
+        "do not type secrets",
+        "do not confirm human approvals"
+      ],
+      "dependencies": [
+        "tmux",
+        "uv"
+      ],
+      "works_with": [
+        "foreman",
+        "eidos"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A Foreman worker must be visible, capturable, and interruptible.",
+          "stack": [
+            "eidos",
+            "foreman",
+            "emux"
+          ],
+          "proof_required": [
+            "emux head command",
+            "emux capture command",
+            "emux interrupt command"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/emux",
+          "url": "https://github.com/eidos-agi/emux"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 -m pytest -q",
+        "smoke_command": "emux list",
+        "docs": [
+          "README.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Capability sample records the intended checks; Emux smoke was not run in this contract pass."
+        }
+      }
+    },
+    {
+      "slug": "stepproof",
+      "name": "StepProof",
+      "summary": "Ceremony enforcement runtime with verifier-gated advancement and audit logs.",
+      "owns": {
+        "domain": "Declared plans, step gates, verifier evidence, and tamper-evident audit logs.",
+        "boundary": "Enforces ceremony and verifies advancement; Eidos only requires and records its proof.",
+        "does_not_own": [
+          "task routing",
+          "specialist domain execution",
+          "human approvals"
+        ]
+      },
+      "commands": [
+        {
+          "name": "install",
+          "command": "uvx stepproof install --scope project",
+          "purpose": "Install StepProof hooks and MCP registration for a project."
+        },
+        {
+          "name": "audit_verify",
+          "command": "stepproof audit verify",
+          "purpose": "Verify the audit stream."
+        },
+        {
+          "name": "metrics",
+          "command": "stepproof metrics --json",
+          "purpose": "Measure enforcement opportunities and off-rails rate."
+        }
+      ],
+      "proof_types": [
+        "declared plan",
+        "step evidence",
+        "verifier result",
+        "hash-chained audit event",
+        "audit verification output"
+      ],
+      "hard_stops": [
+        "off-plan tools",
+        "unverified step advancement",
+        "tampered audit logs",
+        "human approval steps"
+      ],
+      "dependencies": [
+        "uv",
+        "project .stepproof directory",
+        "verifier scripts or MCP"
+      ],
+      "works_with": [
+        "eidos",
+        "surfari",
+        "converge"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task is high-stakes, sequential, account-sensitive, or audit-bound.",
+          "stack": [
+            "eidos",
+            "stepproof"
+          ],
+          "proof_required": [
+            "run id",
+            "events.jsonl",
+            "stepproof audit verify output"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/stepproof",
+          "url": "https://github.com/eidos-agi/stepproof"
+        },
+        "installed": {
+          "status": "unknown",
+          "host": "project",
+          "path_kind": "source-repo"
+        },
+        "public_catalog": {
+          "status": "not_listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "just test",
+        "smoke_command": "stepproof audit verify",
+        "docs": [
+          "README.md",
+          "docs/VERIFICATION_MATRIX.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "StepProof source docs were read; no Apple-account-sensitive run has been executed yet."
+        }
+      }
+    },
+    {
+      "slug": "converge",
+      "name": "Converge",
+      "summary": "Target tables, drift monitors, regression memory, and repair loops for software completion.",
+      "owns": {
+        "domain": "Measurable completion target rows and repair loops.",
+        "boundary": "Owns target/probe schemas, adapters, scoreboards, and repair maps.",
+        "does_not_own": [
+          "Eidos task envelope",
+          "specialist runtime execution",
+          "human approval"
+        ]
+      },
+      "commands": [
+        {
+          "name": "run",
+          "command": "eidos plugin run converge",
+          "purpose": "Emit a Converge context bundle when installed in Eidos."
+        },
+        {
+          "name": "show",
+          "command": "eidos plugin show converge",
+          "purpose": "Inspect Converge playbook and manifest."
+        }
+      ],
+      "proof_types": [
+        "target table",
+        "probe row",
+        "drift report",
+        "regression memory",
+        "scoreboard"
+      ],
+      "hard_stops": [
+        "do not mark complete without passing target rows",
+        "do not hide blocked rows",
+        "do not replace source evidence with agent claims"
+      ],
+      "dependencies": [
+        "Eidos plugin runtime",
+        "deterministic checks"
+      ],
+      "works_with": [
+        "eidos",
+        "foreman",
+        "stepproof",
+        "surfari"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A software task needs measurable completion, drift checks, or repeated repair loops.",
+          "stack": [
+            "eidos",
+            "converge"
+          ],
+          "proof_required": [
+            "target rows",
+            "probe evidence",
+            "repair status"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/converge"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "not_listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "converge test",
+        "smoke_command": "eidos plugin show converge",
+        "docs": [
+          "skills/converge/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Installed Codex plugin metadata was visible; Eidos plugin runtime only saw global learn in this scope."
+        }
+      }
+    },
+    {
+      "slug": "surfari",
+      "name": "Surfari",
+      "summary": "Governed browser automation for account-sensitive Eidos workflows.",
+      "owns": {
+        "domain": "Browser-agent runs, web-surfing evaluations, and browser repair loops.",
+        "boundary": "Owns browser automation evidence and hard gates for protected account actions.",
+        "does_not_own": [
+          "Apple login",
+          "MFA or passkeys",
+          "legal agreements",
+          "payments",
+          "final submissions"
+        ]
+      },
+      "commands": [
+        {
+          "name": "doctor",
+          "command": "surfari doctor",
+          "purpose": "Check local Surfari/browser capability shape."
+        },
+        {
+          "name": "agent_browser_snapshot",
+          "command": "agent-browser snapshot",
+          "purpose": "Capture browser accessibility tree evidence."
+        },
+        {
+          "name": "agent_browser_screenshot",
+          "command": "agent-browser screenshot <path>",
+          "purpose": "Capture visual browser evidence."
+        }
+      ],
+      "proof_types": [
+        "browser action log",
+        "redacted learning candidate",
+        "screenshot",
+        "accessibility snapshot",
+        "domain-gate decision"
+      ],
+      "hard_stops": [
+        "login",
+        "MFA",
+        "passkeys",
+        "legal agreements",
+        "payments",
+        "provisioning profile download",
+        "profile install"
+      ],
+      "dependencies": [
+        "Codex",
+        "agent-browser",
+        "browser access"
+      ],
+      "works_with": [
+        "eidos",
+        "stepproof",
+        "knox",
+        "converge"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A workflow needs browser evidence around account-sensitive pages.",
+          "stack": [
+            "eidos",
+            "surfari",
+            "stepproof"
+          ],
+          "proof_required": [
+            "redacted browser action log",
+            "human gate evidence",
+            "StepProof audit output when sequential"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/surfari",
+          "url": "https://github.com/eidos-agi/surfari"
+        },
+        "installed": {
+          "status": "unknown",
+          "host": "source",
+          "path_kind": "source-repo"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "pnpm test",
+        "smoke_command": "surfari doctor",
+        "docs": [
+          "README.md",
+          "skills/agent-browser/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "stale",
+          "date": "2026-06-14",
+          "summary": "Prior scope initialized StepProof runbook scaffold; no Apple-account-sensitive StepProof run exists yet."
+        }
+      }
+    },
+    {
+      "slug": "knox",
+      "name": "Knox / Eidos Vault",
+      "summary": "Private secrets, access references, recovery playbooks, and approval-gated secret use.",
+      "owns": {
+        "domain": "Secret inventory metadata and vault reference workflows.",
+        "boundary": "Returns safe references and approval packets; never publishes raw secrets.",
+        "does_not_own": [
+          "raw secret disclosure",
+          "credential rotation without approval",
+          "third-party login completion"
+        ]
+      },
+      "commands": [
+        {
+          "name": "vault_list",
+          "command": "eidos vault list",
+          "purpose": "List available vault paths without revealing values."
+        },
+        {
+          "name": "knox_status",
+          "command": "knox status",
+          "purpose": "Check local Knox app or CLI readiness."
+        }
+      ],
+      "proof_types": [
+        "vault path status",
+        "approval packet",
+        "credential freshness metadata",
+        "redacted access proof"
+      ],
+      "hard_stops": [
+        "raw secrets",
+        "passwords",
+        "API keys",
+        "private keys",
+        "MFA values",
+        "credential mutations without approval"
+      ],
+      "dependencies": [
+        "Knox v5 app or CLI",
+        "Eidos Vault when routed through Eidos"
+      ],
+      "works_with": [
+        "eidos",
+        "surfari",
+        "stepproof"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task needs credential status, secret references, or access-risk proof.",
+          "stack": [
+            "eidos",
+            "knox"
+          ],
+          "proof_required": [
+            "path-level status",
+            "approval gate result"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/knox"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0+codex.20260529102600",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "not_listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0+codex.20260529102600",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 -m pytest -q",
+        "smoke_command": "eidos vault list",
+        "docs": [
+          "skills/knox/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Capability sample includes metadata only; no vault values were read."
+        }
+      }
+    },
+    {
+      "slug": "felix",
+      "name": "Felix",
+      "summary": "CLI-first agent building, scaffolding, standards, and repo-health system.",
+      "owns": {
+        "domain": "Agent/plugin building and maintainer standards.",
+        "boundary": "Owns scaffold interviews, build plans, agent standards, and repo-health checks.",
+        "does_not_own": [
+          "Eidos task closeout",
+          "public catalog publication",
+          "secret handling"
+        ]
+      },
+      "commands": [
+        {
+          "name": "help",
+          "command": "felix --help",
+          "purpose": "Reveal Felix CLI capabilities."
+        },
+        {
+          "name": "doctor",
+          "command": "felix doctor",
+          "purpose": "Check Felix local health when available."
+        }
+      ],
+      "proof_types": [
+        "scaffold plan",
+        "repo-health report",
+        "maintainer checklist",
+        "standards finding"
+      ],
+      "hard_stops": [
+        "do not invent plugin standards without source checks",
+        "do not publish package without approval",
+        "do not handle secrets"
+      ],
+      "dependencies": [
+        "Felix CLI",
+        "git"
+      ],
+      "works_with": [
+        "eidos",
+        "eidos-plugin-store",
+        "forge-forge"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task is about building, assessing, or maintaining an agent/plugin.",
+          "stack": [
+            "eidos",
+            "felix"
+          ],
+          "proof_required": [
+            "Felix plan or health output",
+            "source repo diff"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/felix",
+          "url": "https://github.com/eidos-agi/felix"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.1.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.1.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 -m pytest -q",
+        "smoke_command": "felix --help",
+        "docs": [
+          "README.md",
+          "skills/use-felix-cli/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Capability sample uses installed plugin metadata; Felix CLI smoke was not run."
+        }
+      }
+    },
+    {
+      "slug": "rhea",
+      "name": "Rhea",
+      "summary": "Sovereign model routing, debate, pairing, and image tools.",
+      "owns": {
+        "domain": "Model routing and multi-model deliberation.",
+        "boundary": "Chooses model surfaces and structured debate/pairing patterns.",
+        "does_not_own": [
+          "Eidos evidence envelope",
+          "worker worktree execution",
+          "secret handling"
+        ]
+      },
+      "commands": [
+        {
+          "name": "help",
+          "command": "rhea --help",
+          "purpose": "Reveal local Rhea routes."
+        },
+        {
+          "name": "pair",
+          "command": "rhea pair <prompt>",
+          "purpose": "Route a prompt to a paired model workflow when available."
+        }
+      ],
+      "proof_types": [
+        "model route decision",
+        "debate transcript",
+        "pairing output",
+        "image generation output"
+      ],
+      "hard_stops": [
+        "do not expose secrets to models",
+        "do not make irreversible account decisions",
+        "do not replace domain proof with debate output"
+      ],
+      "dependencies": [
+        "Codex",
+        "model access"
+      ],
+      "works_with": [
+        "eidos",
+        "foreman",
+        "felix"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task needs model debate, alternate model judgement, or image generation.",
+          "stack": [
+            "eidos",
+            "rhea"
+          ],
+          "proof_required": [
+            "route decision",
+            "bounded transcript or output artifact"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/rhea",
+          "url": "https://github.com/eidos-agi/rhea"
+        },
+        "installed": {
+          "status": "unknown",
+          "host": "source",
+          "path_kind": "source-repo"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "pnpm test",
+        "smoke_command": "rhea --help",
+        "docs": [
+          "README.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Source repo is present; no model route smoke was run."
+        }
+      }
+    },
+    {
+      "slug": "forge-forge",
+      "name": "Forge-Forge",
+      "summary": "Canonical forge discovery and forge-shaped work routing.",
+      "owns": {
+        "domain": "Eidos forge registry and forge routing.",
+        "boundary": "Routes work to the right forge and registry source instead of inventing new structures.",
+        "does_not_own": [
+          "plugin runtime execution",
+          "catalog publication",
+          "secrets"
+        ]
+      },
+      "commands": [
+        {
+          "name": "help",
+          "command": "forge-forge --help",
+          "purpose": "Reveal forge discovery commands."
+        },
+        {
+          "name": "route",
+          "command": "forge-forge route <task>",
+          "purpose": "Find the owning forge for a task."
+        }
+      ],
+      "proof_types": [
+        "forge registry lookup",
+        "routing decision",
+        "source repo pointer"
+      ],
+      "hard_stops": [
+        "do not invent a forge when registry lookup fails",
+        "do not mutate registry without approval",
+        "do not handle secrets"
+      ],
+      "dependencies": [
+        "Codex or Claude Code",
+        "forge registry"
+      ],
+      "works_with": [
+        "eidos",
+        "eidos-plugin-store",
+        "felix"
+      ],
+      "eidos_routes": [
+        {
+          "when": "A task asks which Eidos forge owns a domain or pattern.",
+          "stack": [
+            "eidos",
+            "forge-forge"
+          ],
+          "proof_required": [
+            "registry lookup",
+            "owning forge"
+          ]
+        }
+      ],
+      "install_status": {
+        "source": {
+          "repo": "eidos-agi/forge-forge",
+          "url": "https://github.com/eidos-agi/forge-forge"
+        },
+        "installed": {
+          "status": "installed",
+          "host": "codex",
+          "version": "0.2.0",
+          "path_kind": "codex-cache"
+        },
+        "public_catalog": {
+          "status": "listed",
+          "url": "https://eidosagi.com/.well-known/eidos/plugin-store.json"
+        },
+        "live_version": "0.2.0",
+        "last_verified": "2026-06-14T22:00:00Z"
+      },
+      "quality": {
+        "test_command": "python3 -m pytest -q",
+        "smoke_command": "forge-forge --help",
+        "docs": [
+          "README.md",
+          "skills/use-forge-forge/SKILL.md"
+        ],
+        "last_proof": {
+          "status": "unknown",
+          "summary": "Capability sample uses installed plugin metadata; CLI smoke was not run."
+        }
+      }
+    }
+  ]
+}
