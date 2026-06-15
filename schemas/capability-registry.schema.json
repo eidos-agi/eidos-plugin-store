@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eidosagi.com/.well-known/eidos/capability-registry.schema.json",
+  "title": "Eidos capability registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "version",
+    "generated_at",
+    "public_catalog_url",
+    "plugins"
+  ],
+  "properties": {
+    "kind": {
+      "const": "eidos.capability-registry"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "public_catalog_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "schema_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "plugins": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/plugin"
+      }
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "plugin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug",
+        "name",
+        "owns",
+        "commands",
+        "proof_types",
+        "hard_stops",
+        "dependencies",
+        "works_with",
+        "eidos_routes",
+        "install_status",
+        "quality"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string"
+        },
+        "owns": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "boundary"
+          ],
+          "properties": {
+            "domain": {
+              "type": "string",
+              "minLength": 1
+            },
+            "boundary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "does_not_own": {
+              "$ref": "#/$defs/string_array"
+            }
+          }
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "command",
+              "purpose"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "command": {
+                "type": "string",
+                "minLength": 1
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              },
+              "requires_human": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "proof_types": {
+          "$ref": "#/$defs/string_array"
+        },
+        "hard_stops": {
+          "$ref": "#/$defs/string_array"
+        },
+        "dependencies": {
+          "$ref": "#/$defs/string_array"
+        },
+        "works_with": {
+          "$ref": "#/$defs/string_array"
+        },
+        "eidos_routes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "when",
+              "stack"
+            ],
+            "properties": {
+              "when": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stack": {
+                "$ref": "#/$defs/string_array"
+              },
+              "proof_required": {
+                "$ref": "#/$defs/string_array"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "install_status": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "installed",
+            "public_catalog"
+          ],
+          "properties": {
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "repo"
+              ],
+              "properties": {
+                "repo": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "installed": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "installed",
+                    "not_installed",
+                    "unknown"
+                  ]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "path_kind": {
+                  "enum": [
+                    "codex-cache",
+                    "source-repo",
+                    "none",
+                    "unknown"
+                  ]
+                }
+              }
+            },
+            "public_catalog": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "listed",
+                    "not_listed",
+                    "unknown"
+                  ]
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "capability_url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "live_version": {
+              "type": "string"
+            },
+            "last_verified": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "quality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "test_command",
+            "smoke_command",
+            "docs",
+            "last_proof"
+          ],
+          "properties": {
+            "test_command": {
+              "type": "string"
+            },
+            "smoke_command": {
+              "type": "string"
+            },
+            "docs": {
+              "$ref": "#/$defs/string_array"
+            },
+            "last_proof": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "current",
+                    "stale",
+                    "missing",
+                    "unknown"
+                  ]
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

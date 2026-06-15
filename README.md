@@ -25,9 +25,26 @@ If Codex cannot install plugins directly yet, say that plainly, use the source r
 - Human catalog: https://eidosagi.com/plugins
 - Machine catalog: https://eidosagi.com/.well-known/eidos/plugin-store.json
 
+## Capability Registry
+
+Eidos routes work from a public-safe capability contract, not from human catalog
+copy alone. The first local contract lives here:
+
+- Contract docs: `docs/capability-contract.md`
+- JSON Schema: `schemas/capability-registry.schema.json`
+- Sample registry: `examples/capability-registry.sample.json`
+- Validator: `scripts/validate_capability_registry.py`
+
+Validate it before publishing or wiring the public catalog:
+
+```bash
+python3 scripts/validate_capability_registry.py examples/capability-registry.sample.json
+```
+
 ## What It Does
 
 - Reads the Eidos AGI plugin catalog.
+- Reads public-safe capability metadata when present.
 - Recommends the right Eidos plugin for a task.
 - Gives direct install steps when available.
 - Falls back to source repo instructions when direct Codex install is not live.
