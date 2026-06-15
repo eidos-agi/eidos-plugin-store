@@ -227,15 +227,24 @@
           "name": "claude_emux",
           "command": "foreman delegate --engine claude-emux <task>",
           "purpose": "Launch an interactive Claude Code worker through Emux."
+        },
+        {
+          "name": "collect",
+          "command": "foreman collect <run-id>",
+          "purpose": "Collect worker diff, logs, and verification evidence for parent review."
         }
       ],
       "proof_types": [
         "worker id",
         "run id",
+        "Foreman-ready worker packet",
         "worktree path kind",
         "diff summary",
         "test output",
-        "emux control commands"
+        "emux head command",
+        "emux capture command",
+        "emux interrupt command",
+        "emux watch command"
       ],
       "hard_stops": [
         "broad architecture delegation",
@@ -269,6 +278,24 @@
             "collected diff",
             "parent verification command"
           ]
+        },
+        {
+          "when": "A Pod packet needs a watchable, capturable, and interruptible Claude Code worker.",
+          "stack": [
+            "eidos",
+            "foreman",
+            "emux"
+          ],
+          "proof_required": [
+            "Foreman-ready packet",
+            "foreman run id",
+            "worker worktree path",
+            "emux head command",
+            "emux capture command",
+            "emux interrupt command",
+            "parent verification command"
+          ],
+          "notes": "Use `claude-emux` only when operator watch/interrupt matters. Foreman owns worker lifecycle; Emux owns terminal control. Required host binaries are emux, tmux, and claude."
         }
       ],
       "install_status": {
@@ -331,12 +358,19 @@
           "name": "interrupt",
           "command": "emux interrupt <name>",
           "purpose": "Interrupt a registered interactive worker."
+        },
+        {
+          "name": "watch",
+          "command": "emux watch <name>",
+          "purpose": "Watch a registered interactive worker session."
         }
       ],
       "proof_types": [
         "session registry row",
         "pane capture",
-        "interrupt acknowledgement"
+        "interrupt acknowledgement",
+        "watch command",
+        "head command"
       ],
       "hard_stops": [
         "do not spawn or kill sessions outside caller policy",
@@ -345,7 +379,8 @@
       ],
       "dependencies": [
         "tmux",
-        "uv"
+        "uv",
+        "Foreman-created claude-emux session when worker lifecycle is needed"
       ],
       "works_with": [
         "foreman",
@@ -362,8 +397,10 @@
           "proof_required": [
             "emux head command",
             "emux capture command",
-            "emux interrupt command"
-          ]
+            "emux interrupt command",
+            "emux watch command"
+          ],
+          "notes": "Emux does not decide task ownership or acceptance. It only exposes control commands returned by Foreman for a registered worker session."
         }
       ],
       "install_status": {

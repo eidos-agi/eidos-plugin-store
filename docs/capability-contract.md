@@ -54,6 +54,22 @@ Use this routing test:
 - If the field teaches Eidos how to run a specialist's domain runtime internally,
   keep it out of the registry and link to the specialist command instead.
 
+## Foreman / Emux Routing Edge
+
+Foreman and Emux are represented as separate capabilities even when a route uses
+`claude-emux`.
+
+- Foreman owns worker lifecycle: packet intake, worktree creation, engine
+  selection, logs, collection, and finalization evidence.
+- Emux owns terminal control for named sessions: `head`, `capture`,
+  `interrupt`, and `watch`.
+- Eidos may emit Foreman-ready packet metadata and require the returned Emux
+  control commands as proof, but Eidos must not spawn or manage the interactive
+  session itself.
+- `claude-emux` routes must declare the host dependencies `emux`, `tmux`, and
+  `claude`, and must retain the same hard stops around secrets, deploys,
+  payments, and destructive git actions.
+
 ## Public Catalog Integration
 
 The existing machine catalog may expose capability data in either of two ways:
