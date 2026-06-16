@@ -54,6 +54,35 @@ Use this routing test:
 - If the field teaches Eidos how to run a specialist's domain runtime internally,
   keep it out of the registry and link to the specialist command instead.
 
+## Foreman / Emux Routing Edge
+
+Foreman and Emux are represented as separate capabilities even when a route uses
+`claude-emux`.
+
+- Foreman owns worker lifecycle: packet intake, worktree creation, engine
+  selection, logs, collection, and finalization evidence.
+- Emux owns terminal control for named sessions: `head`, `capture`,
+  `interrupt`, and `watch`.
+- Eidos may emit Foreman-ready packet metadata and require the returned Emux
+  control commands as proof, but Eidos must not spawn or manage the interactive
+  session itself.
+- `claude-emux` routes must declare the host dependencies `emux`, `tmux`, and
+  `claude`, and must retain the same hard stops around secrets, deploys,
+  payments, and destructive git actions.
+
+## Account-Sensitive Browser Routes
+
+Browser routes that touch protected accounts should encode proof requirements
+as metadata, not credentials:
+
+- expected domain allowlists, such as `developer.apple.com` and
+  `idmsa.apple.com` for Apple Developer workflows;
+- active-tab anchoring and stale-reference recovery proof before live browser
+  actions;
+- human-gate metadata confirmation, including team/account identifiers only
+  when safe to record;
+- Knox coupling by reference path or status only, never raw secret values.
+
 ## Public Catalog Integration
 
 The existing machine catalog may expose capability data in either of two ways:
